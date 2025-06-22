@@ -115,7 +115,7 @@ homelab-proxmox-pfsense-vlans/
 * VLAN 50:
   * Acesso específico ao Jellyfin via IP/MAC fixo
 * Outras VLANs:
-  * Padrão de bloqueio cruzado e acesso interno
+  * Padrão de bloqueio cruzado e acesso interno.
 
 ### 🌍 NATs Ativos
 
