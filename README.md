@@ -119,8 +119,8 @@ homelab-proxmox-pfsense-vlans/
 
 ### 🌍 NATs Ativos
 
-* WireGuard: porta **51825/UDP**
-* ANS: portas específicas liberadas para acesso PTA
+* WireGuard: porta UDP configurada manualmente
+* Porta aberta para acesso remoto autenticado via sistema PTA
 
 ### 🌐 DNS
 
