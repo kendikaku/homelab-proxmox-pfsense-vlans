@@ -6,6 +6,12 @@ Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox
 
 ---
 
+## 🗺️ Diagrama da Infraestrutura
+
+![Diagrama do Homelab](./diagrama.png)
+
+---
+
 ## 📁 Estrutura do Projeto
 
 ```text
