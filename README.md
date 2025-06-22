@@ -22,10 +22,12 @@ homelab-proxmox-pfsense-vlans/
 │   ├── raid1-btrfs-proxmox.md
 │   ├── adicionar-discos-usb-vm.md
 │   ├── passthrough-nic-vfio.md
+│   ├── instalacao-drivers.md
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
 │   ├── backup_proxmox.sh
 │   ├── criar-raid1-btrfs.sh
+│   ├── instalar-drivers.sh
 │   └── redimensionar-lv-root.sh
 └── README.md
 ```
@@ -46,6 +48,7 @@ homelab-proxmox-pfsense-vlans/
 - [Criar RAID1 via Btrfs no Proxmox](docs/raid1-btrfs-proxmox.md)
 - [Adicionar discos USB na VM Passthrough](docs/adicionar-discos-usb-vm.md)
 - [Configurar NIC para Passthrough no Proxmox (VFIO)](docs/passthrough-nic-vfio.md)
+- [Instalação Automática de Drivers no Windows](docs/instalacao-drivers.md)
 
 ---
 
@@ -55,6 +58,7 @@ homelab-proxmox-pfsense-vlans/
 - [`redimensionar-lv-root.sh`](scripts/redimensionar-lv-root.sh) — Script para remover LV data e expandir LV root no Proxmox.
 - [`criar-raid1-btrfs.sh`](scripts/criar-raid1-btrfs.sh) — Script para remover LV data e expandir LV root no Proxmox.
 - [`configurar-passthrough-nic.sh`](scripts/configurar-passthrough-nic.sh) — Script para configurar VFIO passthrough de NICs no Proxmox.
+- [`instalar-drivers`](scripts/instalar-drivers.bat) — Script de Instalação Automática de Drivers no Windows.
 
 ---
 
