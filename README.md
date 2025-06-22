@@ -1,6 +1,26 @@
 # 🏡 HomeLab - Infraestrutura Pessoal com Proxmox & DevOps
 
-Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox VE**, com VMs, containers LXC, VLANs e serviços em rede, configurados com foco em **DevOps**, **segurança**, **automação** e **virtualização eficiente**.
+Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox VE**, com **VMs**, **containers LXC**, **VLANs** e serviços em rede, configurados com foco em **DevOps**, **segurança**, **automação** e **virtualização eficiente**.
+
+---
+
+## 📁 Estrutura do Projeto
+
+```text
+homelab-proxmox-pfsense-vlans/
+├── docs/                     # Documentação detalhada por tópico
+│   ├── samba-config.md
+│   ├── permissao-lxc-jellyfin.md
+│   ├── gerenciamento-usuarios-samba.md
+│   ├── montar-lxc-nao-privilegiado.md
+│   ├── backup-proxmox-onedrive.md
+│   ├── agendar-backup-cron.md
+│   ├── permissoes-acl.md
+│   └── configurar-rclone-onedrive.md
+├── scripts/                 # Scripts úteis e automatizados
+│   └── backup_proxmox.sh
+└── README.md
+
 
 > 💡 Montado em um **Dell OptiPlex 7010 Micro**, este projeto visa simular ambientes corporativos reais, com práticas modernas de DevOps e Infraestrutura.
 
