@@ -8,7 +8,7 @@ Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox
 
 ## 🗺️ Diagrama da Infraestrutura
 
-![Diagrama do Homelab](docs/diagrama-infraestrutura.svg)
+![Diagrama do Homelab](docs/diagrama.png)
 
 ---
 
@@ -29,7 +29,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── adicionar-discos-usb-vm.md
 │   ├── passthrough-nic-vfio.md
 │   ├── instalacao-drivers.md
-│   ├── diagrama-infraestrutura.svg
+│   ├── diagrama.png
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
 │   ├── backup_proxmox.sh
