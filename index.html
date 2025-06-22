@@ -1,57 +1,85 @@
 <!DOCTYPE html>
-<html lang="pt-BR" >
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HomeLab - Infraestrutura Pessoal com Proxmox &amp; DevOps</title>
+  <title>HomeLab - Infraestrutura Pessoal com Proxmox & DevOps</title>
   <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #0d1117;
+      --card-bg: #f0f0f0;
+      --link-color: #0969da;
+      --subtext-color: #57606a;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #0d1117;
+        --text-color: #c9d1d9;
+        --card-bg: #161b22;
+        --link-color: #58a6ff;
+        --subtext-color: #8b949e;
+        --shadow: rgba(0, 0, 0, 0.6);
+      }
+    }
+
     * {
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       margin: 0;
       padding: 2rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      transition: background 0.3s ease;
+      transition: background 0.3s ease, color 0.3s ease;
     }
+
     header {
       max-width: 700px;
       width: 100%;
       text-align: center;
       margin-bottom: 2rem;
     }
+
     header h1 {
-      color: #58a6ff;
+      color: var(--link-color);
       margin-bottom: 0.3em;
     }
+
     header p {
       font-size: 1.1rem;
       line-height: 1.5;
-      color: #8b949e;
+      color: var(--subtext-color);
     }
+
     section.diagram {
       max-width: 700px;
       width: 100%;
       margin-bottom: 2rem;
     }
+
     section.diagram h2 {
-      color: #58a6ff;
+      color: var(--link-color);
       text-align: center;
       margin-bottom: 1rem;
     }
+
     section.diagram img {
       width: 100%;
       border-radius: 10px;
       padding: 1rem;
-      background-color: #161b22;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 10px var(--shadow);
     }
+
     main {
       max-width: 700px;
       width: 100%;
@@ -59,13 +87,14 @@
       gap: 1rem;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
+
     a.card {
-      background: #161b22;
+      background: var(--card-bg);
       padding: 1.5rem 1.8rem;
       border-radius: 10px;
-      color: #58a6ff;
+      color: var(--link-color);
       text-decoration: none;
-      box-shadow: 0 4px 8px rgb(0 0 0 / 0.6);
+      box-shadow: 0 4px 8px var(--shadow);
       transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
       display: flex;
       flex-direction: column;
@@ -76,24 +105,28 @@
       position: relative;
       overflow: hidden;
     }
+
     a.card:focus-visible {
       outline: 2px solid #54d07a;
       outline-offset: 3px;
     }
+
     a.card:hover {
       background: #238636;
       color: #cdd9e5;
-      box-shadow: 0 6px 16px rgb(35 134 54 / 0.8);
+      box-shadow: 0 6px 16px rgba(35, 134, 54, 0.8);
       border-color: #54d07a;
       transform: translateY(-3px);
       z-index: 1;
     }
+
     a.card:active {
       background: #1e6c2b;
-      box-shadow: 0 2px 6px rgb(35 134 54 / 0.5);
+      box-shadow: 0 2px 6px rgba(35, 134, 54, 0.5);
       transform: translateY(0);
       transition: background-color 0.1s ease;
     }
+
     a.card h2 {
       margin: 0 0 0.6rem 0;
       font-size: 1.35rem;
@@ -102,43 +135,51 @@
       gap: 0.6rem;
       color: inherit;
     }
+
     a.card p {
       margin: 0;
       font-size: 1rem;
-      color: #8b949e;
+      color: var(--subtext-color);
       line-height: 1.4;
     }
+
     svg.icon {
       width: 24px;
       height: 24px;
       fill: currentColor;
       flex-shrink: 0;
     }
+
     footer {
       margin-top: auto;
-      color: #484f58;
+      color: var(--subtext-color);
       font-size: 0.9rem;
       padding: 1rem 0;
       text-align: center;
       width: 100%;
       max-width: 700px;
     }
+
     footer a {
-      color: #58a6ff;
+      color: var(--link-color);
       text-decoration: none;
       font-weight: 600;
       margin-left: 0.5rem;
     }
+
     footer a:hover {
       text-decoration: underline;
     }
+
     @media (max-width: 400px) {
       a.card {
         padding: 1.2rem 1rem;
       }
+
       a.card h2 {
         font-size: 1.2rem;
       }
+
       a.card p {
         font-size: 0.95rem;
       }
