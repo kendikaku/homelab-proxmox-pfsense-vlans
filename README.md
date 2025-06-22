@@ -1,32 +1,78 @@
 # 🏡 HomeLab - Infraestrutura Pessoal com Proxmox & DevOps
 
-Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox VE**, com VMs, containers LXC, VLANs e serviços em rede, configurados com foco em **DevOps**, **segurança**, **automação** e **virtualização eficiente**.
+Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox VE**, com **VMs**, **containers LXC**, **VLANs** e serviços em rede, configurados com foco em **DevOps**, **segurança**, **automação** e **virtualização eficiente**.
 
 > 💡 Montado em um **Dell OptiPlex 7010 Micro**, este projeto visa simular ambientes corporativos reais, com práticas modernas de DevOps e Infraestrutura.
+
+---
+
+## 📁 Estrutura do Projeto
+
+```text
+homelab-proxmox-pfsense-vlans/
+├── docs/                     # Documentação detalhada por tópico
+│   ├── samba-config.md
+│   ├── permissao-lxc-jellyfin.md
+│   ├── gerenciamento-usuarios-samba.md
+│   ├── montar-lxc-nao-privilegiado.md
+│   ├── backup-proxmox-onedrive.md
+│   ├── agendar-backup-cron.md
+│   ├── permissoes-acl.md
+│   └── configurar-rclone-onedrive.md
+├── scripts/                 # Scripts úteis e automatizados
+│   └── backup_proxmox.sh
+└── README.md
+```
+
+---
+
+## 📚 Documentações
+
+- [Configuração do Samba](docs/samba-config.md)
+- [Permissões para LXC e Jellyfin](docs/permissao-lxc-jellyfin.md)
+- [Gerenciar usuários Samba](docs/gerenciamento-usuarios-samba.md)
+- [Montar diretórios no LXC](docs/montar-lxc-nao-privilegiado.md)
+- [Backup com Rclone + Telegram](docs/backup-proxmox-onedrive.md)
+- [Agendamento de Backup com Cron](docs/agendar-backup-cron.md)
+- [Permissões ACL detalhadas](docs/permissoes-acl.md)
+- [Configurar Rclone com OneDrive](docs/configurar-rclone-onedrive.md)
+
+---
+
+## 🔧 Scripts
+
+- [`backup_proxmox.sh`](scripts/backup_proxmox.sh) — Sincroniza backups do Proxmox com o OneDrive e envia notificação para o Telegram.
+
+---
+
+## 🚀 Como começar
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/kendikaku/homelab-proxmox-pfsense-vlans.git
+   cd homelab-proxmox-pfsense-vlans
+   ```
+2. Acesse a documentação em `docs/` para seguir as configurações passo a passo.
+3. Execute os scripts conforme necessário a partir da pasta `scripts/`.
 
 ---
 
 ## ⚙️ Infraestrutura Geral
 
 * 🖥️ **Host**: Dell OptiPlex 7010 Micro
-
   * CPU: Intel i5-14500T
   * RAM: 40GB DDR4
   * Armazenamento:
-
     * NVMe 1TB (Proxmox, VMs e LXCs)
     * HD Externo 4TB (backups, ISOs, templates e dados compartilhados)
 * 🔁 **Backup**:
-
   * Realizado diretamente no Proxmox
   * Cópia automática via **rclone** para **OneDrive** com notificações via **Telegram**
 * 📦 **Virtualização**:
-
   * Proxmox VE como hypervisor
   * pfSense e Windows 11 virtualizados
   * LXCs não privilegiados com permissões ACL
 * 🧰 **Planejamento futuro**:
-
   * Substituir por OptiPlex 7020 com 2 slots NVMe (mirror ZFS para redundância)
 
 ---
@@ -46,15 +92,12 @@ Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox
 ### 🔐 Regras de Firewall
 
 * VLAN 10:
-
   * Acesso interno liberado
   * Acesso à internet por regra final
   * Bloqueio de outras VLANs, exceto IPs confiáveis via alias
 * VLAN 50:
-
   * Acesso específico ao Jellyfin via IP/MAC fixo
 * Outras VLANs:
-
   * Padrão de bloqueio cruzado e acesso interno
 
 ### 🌍 NATs Ativos
@@ -94,14 +137,12 @@ Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox
 ## 🔌 Switch TP-Link TL-SG108PE
 
 * **802.1Q VLAN Tagging**:
-
   * VLAN 1: portas 1 e 8 untagged (padrão)
   * VLAN 10: portas 2–5 untagged; 1 e 8 tagged
   * VLAN 20: porta 6 untagged; 1 e 8 tagged
   * VLAN 50: porta 7 untagged; 1 e 8 tagged
   * VLAN 60: somente 1 e 8 tagged
 * **PVIDs**:
-
   * Portas 1 e 8: VLAN 1
   * Portas 2–5: VLAN 10
   * Porta 6: VLAN 20
@@ -122,10 +163,10 @@ Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox
 
 ## 💬 Contato
 
-**Richard**
-Estudante de Engenharia da Computação (UNIVESP)
-Focado em Infraestrutura, DevOps, Homelabs e Linux
-🔗 [LinkedIn](https://www.linkedin.com/in/richardkendikaku)
+**Richard**  
+Estudante de Engenharia da Computação (UNIVESP)  
+Focado em Infraestrutura, DevOps, Homelabs e Linux  
+🔗 [LinkedIn](https://www.linkedin.com/in/richardkendikaku)  
 📂 [GitHub](https://github.com/kendikaku)
 
 > 🧠 *“Quem domina o lab, domina o caos.”*
