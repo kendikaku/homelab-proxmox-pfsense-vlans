@@ -21,7 +21,8 @@ homelab-proxmox-pfsense-vlans/
 │   ├── redimensionar-lv-root.md
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
-│   └── backup_proxmox.sh
+│   ├── backup_proxmox.sh
+│   └── redimensionar-lv-root.sh
 └── README.md
 ```
 
