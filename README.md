@@ -18,6 +18,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── backup-proxmox-onedrive.md
 │   ├── agendar-backup-cron.md
 │   ├── permissoes-acl.md
+│   ├── redimensionar-lv-root.md
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
 │   └── backup_proxmox.sh
@@ -36,12 +37,14 @@ homelab-proxmox-pfsense-vlans/
 - [Agendamento de Backup com Cron](docs/agendar-backup-cron.md)
 - [Permissões ACL detalhadas](docs/permissoes-acl.md)
 - [Configurar Rclone com OneDrive](docs/configurar-rclone-onedrive.md)
+- [Redimensionar LV Root Proxmox](docs/redimensionar-lv-root.md)
 
 ---
 
 ## 🔧 Scripts
 
 - [`backup_proxmox.sh`](scripts/backup_proxmox.sh) — Sincroniza backups do Proxmox com o OneDrive e envia notificação para o Telegram.
+- [`redimensionar-lv-root.sh`](scripts/redimensionar-lv-root.sh) — Script para remover LV data e expandir LV root no Proxmox.
 
 ---
 
