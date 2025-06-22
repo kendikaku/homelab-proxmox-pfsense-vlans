@@ -21,6 +21,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── redimensionar-lv-root.md
 │   ├── raid1-btrfs-proxmox.md
 │   ├── adicionar-discos-usb-vm.md
+│   ├── passthrough-nic-vfio.md
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
 │   ├── backup_proxmox.sh
@@ -44,6 +45,7 @@ homelab-proxmox-pfsense-vlans/
 - [Redimensionar LV Root Proxmox](docs/redimensionar-lv-root.md)
 - [Criar RAID1 via Btrfs no Proxmox](docs/raid1-btrfs-proxmox.md)
 - [Adicionar discos USB na VM Passthrough](docs/adicionar-discos-usb-vm.md)
+- [Configurar NIC para Passthrough no Proxmox (VFIO)](docs/passthrough-nic-vfio.md)
 
 ---
 
@@ -52,6 +54,7 @@ homelab-proxmox-pfsense-vlans/
 - [`backup_proxmox.sh`](scripts/backup_proxmox.sh) — Sincroniza backups do Proxmox com o OneDrive e envia notificação para o Telegram.
 - [`redimensionar-lv-root.sh`](scripts/redimensionar-lv-root.sh) — Script para remover LV data e expandir LV root no Proxmox.
 - [`criar-raid1-btrfs.sh`](scripts/criar-raid1-btrfs.sh) — Script para remover LV data e expandir LV root no Proxmox.
+- [`configurar-passthrough-nic.sh`](scripts/configurar-passthrough-nic.sh) — Script para configurar VFIO passthrough de NICs no Proxmox.
 
 ---
 
