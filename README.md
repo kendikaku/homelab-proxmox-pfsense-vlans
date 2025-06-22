@@ -27,7 +27,7 @@ homelab-proxmox-pfsense-vlans/
 ├── scripts/                 # Scripts úteis e automatizados
 │   ├── backup_proxmox.sh
 │   ├── criar-raid1-btrfs.sh
-│   ├── instalar-drivers.sh
+│   ├── instalar-drivers.bat
 │   └── redimensionar-lv-root.sh
 └── README.md
 ```
