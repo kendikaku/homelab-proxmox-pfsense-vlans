@@ -1,2 +1,131 @@
-# homelab-proxmox-pfsense-vlans
-Projeto pessoal de infraestrutura DevOps, com foco em redes, automação e virtualização para simular ambientes corporativos reais.
+# 🏡 HomeLab - Infraestrutura Pessoal com Proxmox & DevOps
+
+Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox VE**, com VMs, containers LXC, VLANs e serviços em rede, configurados com foco em **DevOps**, **segurança**, **automação** e **virtualização eficiente**.
+
+> 💡 Montado em um **Dell OptiPlex 7010 Micro**, este projeto visa simular ambientes corporativos reais, com práticas modernas de DevOps e Infraestrutura.
+
+---
+
+## ⚙️ Infraestrutura Geral
+
+* 🖥️ **Host**: Dell OptiPlex 7010 Micro
+
+  * CPU: Intel i5-14500T
+  * RAM: 40GB DDR4
+  * Armazenamento:
+
+    * NVMe 1TB (Proxmox, VMs e LXCs)
+    * HD Externo 4TB (backups, ISOs, templates e dados compartilhados)
+* 🔁 **Backup**:
+
+  * Realizado diretamente no Proxmox
+  * Cópia automática via **rclone** para **OneDrive** com notificações via **Telegram**
+* 📦 **Virtualização**:
+
+  * Proxmox VE como hypervisor
+  * pfSense e Windows 11 virtualizados
+  * LXCs não privilegiados com permissões ACL
+* 🧰 **Planejamento futuro**:
+
+  * Substituir por OptiPlex 7020 com 2 slots NVMe (mirror ZFS para redundância)
+
+---
+
+## 🌐 VLANs e Rede
+
+| VLAN | Nome          | Função                                                     |
+| ---- | ------------- | ---------------------------------------------------------- |
+| 10   | Home          | Rede doméstica com controle de acesso e aliases confiáveis |
+| 20   | IoT           | Rede para dispositivos inteligentes                        |
+| 30   | Proxmox LXC   | Infraestrutura LXC (administração e serviços internos)     |
+| 40   | Proxmox Media | Serviços de mídia, indexadores e streamers                 |
+| 50   | IPTV          | Dispositivos IPTV com acesso limitado ao Jellyfin          |
+| 60   | Convidados    | Rede isolada para visitantes                               |
+| LAN  | Gerência      | Interface de administração (sem DHCP)                      |
+
+### 🔐 Regras de Firewall
+
+* VLAN 10:
+
+  * Acesso interno liberado
+  * Acesso à internet por regra final
+  * Bloqueio de outras VLANs, exceto IPs confiáveis via alias
+* VLAN 50:
+
+  * Acesso específico ao Jellyfin via IP/MAC fixo
+* Outras VLANs:
+
+  * Padrão de bloqueio cruzado e acesso interno
+
+### 🌍 NATs Ativos
+
+* WireGuard: porta **51825/UDP**
+* ANS: portas específicas liberadas para acesso PTA
+
+### 🌐 DNS
+
+* DNS Forwarder ativado no pfSense
+* Pi-hole rodando em LXC com **Unbound Recursivo**
+* Fallbacks: Google e Cloudflare
+
+---
+
+## 🧩 Serviços em Containers (LXCs)
+
+| Serviço             | VLAN | Função                         |
+| ------------------- | ---- | ------------------------------ |
+| **Bazarr**          | 40   | Legendas automáticas           |
+| **Prowlarr**        | 40   | Indexadores para Radarr/Sonarr |
+| **Radarr**          | 40   | Filmes                         |
+| **Sonarr**          | 40   | Séries                         |
+| **qBittorrent**     | 40   | Cliente torrent                |
+| **Jellyfin**        | 40   | Streaming local                |
+| **Jellyseerr**      | 40   | Interface de pedidos de mídia  |
+| **UniFi Network**   | 30   | Gerenciamento de rede Wi-Fi    |
+| **Code-server**     | 30   | VS Code via browser            |
+| **Filebrowser**     | 30   | Gerenciador de arquivos        |
+| **Cloudflare-DDNS** | 30   | Atualização dinâmica de DNS    |
+| **Portainer**       | 30   | Orquestração de containers     |
+| **Pi-hole**         | 30   | DNS + bloqueio de anúncios     |
+| **WireGuard**       | N/A  | VPN                            |
+
+---
+
+## 🔌 Switch TP-Link TL-SG108PE
+
+* **802.1Q VLAN Tagging**:
+
+  * VLAN 1: portas 1 e 8 untagged (padrão)
+  * VLAN 10: portas 2–5 untagged; 1 e 8 tagged
+  * VLAN 20: porta 6 untagged; 1 e 8 tagged
+  * VLAN 50: porta 7 untagged; 1 e 8 tagged
+  * VLAN 60: somente 1 e 8 tagged
+* **PVIDs**:
+
+  * Portas 1 e 8: VLAN 1
+  * Portas 2–5: VLAN 10
+  * Porta 6: VLAN 20
+  * Porta 7: VLAN 50
+* **Loop Prevention** ativado
+
+---
+
+## 📡 Futuro
+
+* Instalação de AP UniFi U7 Pro
+* Segmentação de Wi-Fi por VLAN
+* Monitoramento com Grafana + Prometheus
+* Automação com Ansible
+* Migração para setup com Proxmox + ZFS Mirror
+
+---
+
+## 💬 Contato
+
+**Richard**
+Estudante de Engenharia da Computação (UNIVESP)
+Focado em Infraestrutura, DevOps, Homelabs e Linux
+🔗 [LinkedIn](https://www.linkedin.com/in/richardkendikaku)
+📂 [GitHub](https://github.com/kendikaku)
+
+> 🧠 *“Quem domina o lab, domina o caos.”*
