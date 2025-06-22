@@ -1,115 +1,188 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Homelab Proxmox & pfSense - Richard</title>
-<style>
-  /* Reset básico */
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0d1117;
-    color: #c9d1d9;
-    margin: 0;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-  }
-  header {
-    max-width: 700px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  header h1 {
-    color: #58a6ff;
-    margin-bottom: 0.3em;
-  }
-  header p {
-    font-size: 1.1rem;
-    line-height: 1.5;
-    color: #8b949e;
-  }
-  main {
-    max-width: 700px;
-    width: 100%;
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: 1fr 1fr;
-  }
-  a.card {
-    background: #161b22;
-    padding: 1.2rem;
-    border-radius: 8px;
-    color: #58a6ff;
-    text-decoration: none;
-    box-shadow: 0 2px 5px rgb(0 0 0 / 0.5);
-    transition: background-color 0.3s, box-shadow 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 1px solid transparent;
-  }
-  a.card:hover, a.card:focus {
-    background: #238636;
-    color: #cdd9e5;
-    box-shadow: 0 4px 10px rgb(35 134 54 / 0.7);
-    border-color: #54d07a;
-    outline: none;
-  }
-  a.card h2 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.25rem;
-  }
-  a.card p {
-    margin: 0;
-    font-size: 0.95rem;
-    color: #8b949e;
-  }
-  footer {
-    margin-top: auto;
-    color: #484f58;
-    font-size: 0.85rem;
-    padding: 1rem 0;
-  }
-  /* Responsivo */
-  @media (max-width: 600px) {
-    main {
-      grid-template-columns: 1fr;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homelab Proxmox & pfSense - Richard</title>
+  <style>
+    /* Reset básico */
+    * {
+      box-sizing: border-box;
     }
-  }
-</style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
+    header {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      color: #58a6ff;
+      margin-bottom: 0.3em;
+    }
+    header p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #8b949e;
+    }
+    main {
+      max-width: 700px;
+      width: 100%;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    a.card {
+      background: #161b22;
+      padding: 1.5rem 1.8rem;
+      border-radius: 10px;
+      color: #58a6ff;
+      text-decoration: none;
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.6);
+      transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid transparent;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+    }
+    a.card:focus-visible {
+      outline: 2px solid #54d07a;
+      outline-offset: 3px;
+    }
+    a.card:hover {
+      background: #238636;
+      color: #cdd9e5;
+      box-shadow: 0 6px 16px rgb(35 134 54 / 0.8);
+      border-color: #54d07a;
+      transform: translateY(-3px);
+      z-index: 1;
+    }
+    a.card:active {
+      background: #1e6c2b;
+      box-shadow: 0 2px 6px rgb(35 134 54 / 0.5);
+      transform: translateY(0);
+      transition: background-color 0.1s ease;
+    }
+    a.card h2 {
+      margin: 0 0 0.6rem 0;
+      font-size: 1.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: inherit;
+    }
+    a.card p {
+      margin: 0;
+      font-size: 1rem;
+      color: #8b949e;
+      line-height: 1.4;
+    }
+    /* Ícones SVG */
+    svg.icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    footer {
+      margin-top: auto;
+      color: #484f58;
+      font-size: 0.9rem;
+      padding: 1rem 0;
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+    }
+    footer a {
+      color: #58a6ff;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+    /* Responsivo */
+    @media (max-width: 400px) {
+      a.card {
+        padding: 1.2rem 1rem;
+      }
+      a.card h2 {
+        font-size: 1.2rem;
+      }
+      a.card p {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>Homelab Proxmox & pfSense</h1>
-  <p>Documentação e scripts do meu homelab focado em Proxmox VE, pfSense e VLANs, tudo bem organizado para DevOps e infraestrutura.</p>
-</header>
-<main>
-  <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans" target="_blank" rel="noopener noreferrer" class="card">
-    <h2>Repositório GitHub</h2>
-    <p>Veja o código completo, issues, e acompanhe atualizações.</p>
-  </a>
-  <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans/wiki" target="_blank" rel="noopener noreferrer" class="card">
-    <h2>Wiki & Documentação</h2>
-    <p>Documentos, guias e explicações detalhadas do projeto.</p>
-  </a>
-  <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans/actions" target="_blank" rel="noopener noreferrer" class="card">
-    <h2>GitHub Actions</h2>
-    <p>Automação, testes e CI/CD do projeto.</p>
-  </a>
-  <a href="https://kendikaku.github.io/homelab-proxmox-pfsense-vlans/" target="_blank" rel="noopener noreferrer" class="card">
-    <h2>Site GitHub Pages</h2>
-    <p>Veja a documentação estática hospedada e atualizada automaticamente.</p>
-  </a>
-</main>
-<footer>
-  Feito por Richard — Engenharia da Computação &nbsp;|&nbsp; <a href="https://github.com/kendikaku" target="_blank" rel="noopener noreferrer" style="color:#58a6ff;">Meu GitHub</a>
-</footer>
+  <header>
+    <h1>Homelab Proxmox & pfSense</h1>
+    <p>Documentação e scripts do meu homelab focado em Proxmox VE, pfSense e VLANs, tudo bem organizado para DevOps e infraestrutura.</p>
+  </header>
+  <main>
+    <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans" target="_blank" rel="noopener noreferrer" class="card" aria-label="Repositório GitHub">
+      <h2>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.334-1.757-1.334-1.757-1.09-.745.083-.73.083-.73 1.204.086 1.838 1.235 1.838 1.235 1.07 1.835 2.807 1.305 3.492.997.11-.776.42-1.305.763-1.605-2.665-.3-5.466-1.335-5.466-5.933 0-1.31.467-2.38 1.235-3.22-.125-.302-.535-1.52.115-3.165 0 0 1.005-.322 3.3 1.23a11.51 11.51 0 013.003-.404c1.02.005 2.045.138 3.003.404 2.29-1.552 3.29-1.23 3.29-1.23.655 1.645.245 2.863.12 3.165.77.84 1.23 1.91 1.23 3.22 0 4.61-2.807 5.63-5.48 5.925.43.37.815 1.096.815 2.21 0 1.595-.015 2.88-.015 3.275 0 .32.21.694.825.575C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"></path>
+        </svg>
+        Repositório GitHub
+      </h2>
+      <p>Veja o código completo, issues, e acompanhe atualizações.</p>
+    </a>
+
+    <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans/wiki" target="_blank" rel="noopener noreferrer" class="card" aria-label="Wiki e Documentação">
+      <h2>
+        📚 Wiki & Documentação
+      </h2>
+      <p>Documentos, guias e explicações detalhadas do projeto.</p>
+    </a>
+
+    <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans/actions" target="_blank" rel="noopener noreferrer" class="card" aria-label="GitHub Actions">
+      <h2>
+        ⚙️ GitHub Actions
+      </h2>
+      <p>Automação, testes e CI/CD do projeto.</p>
+    </a>
+
+    <a href="https://kendikaku.github.io/homelab-proxmox-pfsense-vlans/" target="_blank" rel="noopener noreferrer" class="card" aria-label="Site GitHub Pages">
+      <h2>
+        🌐 Site GitHub Pages
+      </h2>
+      <p>Veja a documentação estática hospedada e atualizada automaticamente.</p>
+    </a>
+
+    <a href="https://www.linkedin.com/in/richardkendikaku/" target="_blank" rel="noopener noreferrer" class="card" aria-label="Perfil LinkedIn">
+      <h2>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11.6 20h-3v-11h3v11zm-1.5-12.3c-.96 0-1.74-.78-1.74-1.74s.78-1.74 1.74-1.74c.96 0 1.74.78 1.74 1.74s-.78 1.74-1.74 1.74zm13.1 12.3h-3v-5.5c0-1.32-.02-3.02-1.84-3.02-1.84 0-2.12 1.43-2.12 2.91v5.61h-3v-11h2.88v1.5h.04c.4-.76 1.37-1.56 2.82-1.56 3.02 0 3.58 1.98 3.58 4.55v6.51z"></path>
+        </svg>
+        LinkedIn
+      </h2>
+      <p>Conecte-se comigo na rede profissional.</p>
+    </a>
+  </main>
+  <footer>
+    Feito por Richard — Engenharia da Computação &nbsp;|&nbsp;
+    <a href="https://github.com/kendikaku" target="_blank" rel="noopener noreferrer">Meu GitHub</a>
+    &nbsp;|&nbsp;
+    <a href="https://www.linkedin.com/in/richardkendikaku/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </footer>
 </body>
 </html>
