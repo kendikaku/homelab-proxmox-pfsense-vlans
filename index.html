@@ -1,61 +1,115 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Homelab Proxmox & pfSense - Richard</title>
-  <style>
-    body {
-      background: #121212;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0; padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Homelab Proxmox & pfSense - Richard</title>
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0d1117;
+    color: #c9d1d9;
+    margin: 0;
+    padding: 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  header {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  header h1 {
+    color: #58a6ff;
+    margin-bottom: 0.3em;
+  }
+  header p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: #8b949e;
+  }
+  main {
+    max-width: 700px;
+    width: 100%;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  a.card {
+    background: #161b22;
+    padding: 1.2rem;
+    border-radius: 8px;
+    color: #58a6ff;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.5);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid transparent;
+  }
+  a.card:hover, a.card:focus {
+    background: #238636;
+    color: #cdd9e5;
+    box-shadow: 0 4px 10px rgb(35 134 54 / 0.7);
+    border-color: #54d07a;
+    outline: none;
+  }
+  a.card h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+  }
+  a.card p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #8b949e;
+  }
+  footer {
+    margin-top: auto;
+    color: #484f58;
+    font-size: 0.85rem;
+    padding: 1rem 0;
+  }
+  /* Responsivo */
+  @media (max-width: 600px) {
+    main {
+      grid-template-columns: 1fr;
     }
-    h1 {
-      color: #4caf50;
-      margin-bottom: 0.3em;
-    }
-    p {
-      max-width: 600px;
-      line-height: 1.5;
-      font-size: 1.1rem;
-      margin-bottom: 1em;
-    }
-    a {
-      color: #81c784;
-      text-decoration: none;
-      font-weight: bold;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s;
-    }
-    a:hover {
-      border-color: #81c784;
-    }
-    footer {
-      position: fixed;
-      bottom: 10px;
-      font-size: 0.9rem;
-      color: #888;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <h1>Bem-vindo ao meu Homelab!</h1>
-  <p>
-    Infraestrutura com <strong>Proxmox VE</strong>, <strong>pfSense</strong> e VLANs — tudo documentado e organizado.
-  </p>
-  <p>
-    Confira o código no meu GitHub:<br />
-    <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans" target="_blank" rel="noopener noreferrer">
-      kendikaku/homelab-proxmox-pfsense-vlans
-    </a>
-  </p>
-  <footer>Feito por Richard — Engenharia da Computação</footer>
+<header>
+  <h1>Homelab Proxmox & pfSense</h1>
+  <p>Documentação e scripts do meu homelab focado em Proxmox VE, pfSense e VLANs, tudo bem organizado para DevOps e infraestrutura.</p>
+</header>
+<main>
+  <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans" target="_blank" rel="noopener noreferrer" class="card">
+    <h2>Repositório GitHub</h2>
+    <p>Veja o código completo, issues, e acompanhe atualizações.</p>
+  </a>
+  <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans/wiki" target="_blank" rel="noopener noreferrer" class="card">
+    <h2>Wiki & Documentação</h2>
+    <p>Documentos, guias e explicações detalhadas do projeto.</p>
+  </a>
+  <a href="https://github.com/kendikaku/homelab-proxmox-pfsense-vlans/actions" target="_blank" rel="noopener noreferrer" class="card">
+    <h2>GitHub Actions</h2>
+    <p>Automação, testes e CI/CD do projeto.</p>
+  </a>
+  <a href="https://kendikaku.github.io/homelab-proxmox-pfsense-vlans/" target="_blank" rel="noopener noreferrer" class="card">
+    <h2>Site GitHub Pages</h2>
+    <p>Veja a documentação estática hospedada e atualizada automaticamente.</p>
+  </a>
+</main>
+<footer>
+  Feito por Richard — Engenharia da Computação &nbsp;|&nbsp; <a href="https://github.com/kendikaku" target="_blank" rel="noopener noreferrer" style="color:#58a6ff;">Meu GitHub</a>
+</footer>
 </body>
 </html>
