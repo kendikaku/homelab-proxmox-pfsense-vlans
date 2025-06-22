@@ -43,7 +43,7 @@ homelab-proxmox-pfsense-vlans/
 - [Configurar Rclone com OneDrive](docs/configurar-rclone-onedrive.md)
 - [Redimensionar LV Root Proxmox](docs/redimensionar-lv-root.md)
 - [Criar RAID1 via Btrfs no Proxmox](docs/raid1-btrfs-proxmox.md)
-- [Adicionar discos USB na VM Passthrough](docs/adicionar-discos-usb-vm.md)
+- [Adicionar discos USB na VM Passthrough](docs/adicionar-discos-usb-vm)
 
 ---
 
