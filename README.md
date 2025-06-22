@@ -8,7 +8,7 @@ Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox
 
 ## 🗺️ Diagrama da Infraestrutura
 
-![Diagrama do Homelab](/homelab-proxmox-pfsense-vlans/docs/Diagrama%20Infra.drawio.svg)
+![Diagrama do Homelab](/docs/Diagrama%20Infra.drawio.svg)
 
 ---
 
