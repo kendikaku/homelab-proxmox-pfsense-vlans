@@ -2,6 +2,8 @@
 
 Este repositório contém uma stack Docker Compose que reúne diversos serviços para multimídia, automação, rede e segurança. Todos os serviços estão configurados com volumes externos para persistência, e as variáveis de ambiente estão definidas diretamente no `docker-compose.yml`.
 
+> ⚙️ **Instalação baseada em mapeamentos de diretório configurados no Proxmox**, vinculando o armazenamento externo à VM Debian que roda o Docker + Portainer.
+
 ---
 
 ## 🚀 Serviços incluídos

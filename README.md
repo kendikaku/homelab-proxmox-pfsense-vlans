@@ -37,6 +37,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── criar-raid1-btrfs.sh
 │   ├── instalar-drivers.bat
 │   └── redimensionar-lv-root.sh
+├── docker-compose.yaml
 └── README.md
 ```
 
@@ -57,7 +58,7 @@ homelab-proxmox-pfsense-vlans/
 - [Adicionar discos USB na VM Passthrough](docs/adicionar-discos-usb-vm.md)
 - [Configurar NIC para Passthrough no Proxmox (VFIO)](docs/passthrough-nic-vfio.md)
 - [Instalação Automática de Drivers no Windows](docs/instalacao-drivers.md)
-- [Docker Stack Multimídia e Infraestrutura)](docs/docker-stack.md)
+- [Docker Stack Multimídia e Infraestrutura](docs/docker-stack.md)
 
 ---
 

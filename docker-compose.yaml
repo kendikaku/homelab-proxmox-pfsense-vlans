@@ -1,0 +1,249 @@
+version: "3.8"
+
+services:
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share/configs/BazarrConfig:/config
+      - /mnt/externo/share/Media/Movies:/movies # opcional: filmes
+      - "/mnt/externo/share/Media/Tv Shows:/tv" # opcional: séries
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share/configs/ProwlarrConfig:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share/configs/RadarrConfig:/config
+      - /mnt/externo/share/Media/Movies:/movies # opcional: filmes
+      - /mnt/externo/share/Downloads:/downloads # opcional: downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share/configs/SonarrConfig:/config
+      - "/mnt/externo/share/Media/Tv Shows:/tv" # opcional: séries
+      - /mnt/externo/share/Downloads:/downloads # opcional: downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  filebrowser:
+    image: filebrowser/filebrowser:v2.23.0
+    container_name: filebrowser
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share:/srv
+      - /mnt/externo/share/configs/FilebrowserConfig:/db
+    ports:
+      - 10180:80
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - /mnt/externo/share/configs/qBittorrentConfig:/config
+      - /mnt/externo/share/Downloads:/downloads # opcional
+    ports:
+      - 8080:8080
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+     # - JELLYFIN_PublishedServerUrl=http://192.168.0.5 # opcional
+    volumes:
+      - /mnt/externo/share/configs/JellyfinConfig:/config
+      - "/mnt/externo/share/Media/Tv Shows:/data/tvshows"
+      - /mnt/externo/share/Media/Movies:/data/movies
+    ports:
+      - 8096:8096
+      - 8920:8920 # opcional
+      - 7359:7359/udp # opcional
+      - 1900:1900/udp # opcional
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=America/Sao_Paulo
+    ports:
+      - 5055:5055
+    volumes:
+      - /mnt/externo/share/configs/JellyseerrConfig:/app/config
+    restart: unless-stopped
+
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+     # - PASSWORD=password # opcional
+     # - SUDO_PASSWORD=password # opcional
+     # - PROXY_DOMAIN=code-server.my.domain # opcional
+     # - DEFAULT_WORKSPACE=/config/workspace # opcional
+     # - PWA_APPNAME=code-server # opcional
+    volumes:
+      - /mnt/externo/share/configs/Code-ServerConfig:/config
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    environment:
+      - TZ=America/Sao_Paulo
+      # coloque aqui outras variáveis conforme sua config
+    volumes:
+      - /mnt/externo/share/configs/VaultConfig/vaultdata:/data
+    ports:
+      - 10380:80
+    restart: unless-stopped
+
+  openspeedtest:
+    image: openspeedtest/latest:v2.0.6
+    container_name: openspeedtest
+    environment:
+      - TZ=America/Sao_Paulo
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    environment:
+      - TZ=America/Sao_Paulo
+    ports:
+      - 40080:80
+      - 40443:443
+      - 81:81
+    volumes:
+      - /mnt/externo/share/configs/NPMConfig/data:/data
+      - /mnt/externo/share/configs/NPMConfig/letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    environment:
+      - TZ=America/Sao_Paulo
+      - WATCHTOWER_LIFECYCLE_HOOKS=True
+      - WATCHTOWER_NOTIFICATIONS=shoutrrr
+      - WATCHTOWER_NOTIFICATION_URL=telegram://Token@telegram/?channels=ChatID
+      - WATCHTOWER_DEBUG=true
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_SCHEDULE=0 0 11 * * *
+      - WATCHTOWER_MONITOR_ONLY=false
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    network_mode: host
+
+  pihole:
+    container_name: pihole
+    image: mpgirro/pihole-unbound:latest
+    hostname: pihole
+    domainname: local
+    environment:
+      - TZ=America/Sao_Paulo
+      - WEBPASSWORD=SuaSenha
+      # ajuste essas variáveis para sua rede e config
+    volumes:
+      - /mnt/externo/share/configs/PiHoleConfig:/etc/pihole:rw
+      - /mnt/externo/share/configs/PiHoleConfig/pihole-dnsmasq:/etc/dnsmasq.d:rw
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy:15
+    container_name: wg-easy
+    environment:
+      - TZ=America/Sao_Paulo
+      # adicione variáveis conforme sua necessidade
+    volumes:
+      - /mnt/externo/share/configs/Wg-EasyConfig/etc_wireguard:/etc/wireguard
+      - /lib/modules:/lib/modules:ro
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv6.conf.default.forwarding=1
+
+  cloudflare-ddns:
+    image: favonia/cloudflare-ddns:latest
+    container_name: cloudflare-ddns
+    network_mode: host
+    restart: always
+    user: "1000:1000"
+    read_only: true
+    cap_drop: [all]
+    security_opt: [no-new-privileges:true]
+    environment:
+      - CLOUDFLARE_API_TOKEN=API-TOKEN-Cloudflare
+      - DOMAINS=Dominio
+      - PROXIED=true
