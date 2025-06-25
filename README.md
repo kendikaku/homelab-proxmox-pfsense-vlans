@@ -30,6 +30,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── passthrough-nic-vfio.md
 │   ├── instalacao-drivers.md
 │   ├── diagrama-infra.png
+│   ├── docker-stack.md
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
 │   ├── backup_proxmox.sh
@@ -56,6 +57,7 @@ homelab-proxmox-pfsense-vlans/
 - [Adicionar discos USB na VM Passthrough](docs/adicionar-discos-usb-vm.md)
 - [Configurar NIC para Passthrough no Proxmox (VFIO)](docs/passthrough-nic-vfio.md)
 - [Instalação Automática de Drivers no Windows](docs/instalacao-drivers.md)
+- [Docker Stack Multimídia e Infraestrutura)](docs/docker-stack.md)
 
 ---
 
