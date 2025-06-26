@@ -2,7 +2,7 @@
 
 Este repositório documenta minha infraestrutura de homelab utilizando **Proxmox VE**, com **VMs**, **containers LXC**, **VLANs** e serviços em rede, configurados com foco em **DevOps**, **segurança**, **automação** e **virtualização eficiente**.
 
-> 💡 Montado em um **Dell OptiPlex 7010 Micro**, este projeto visa simular ambientes corporativos reais, com práticas modernas de DevOps e Infraestrutura.
+> 💡 Montado em um **Dell OptiPlex 7010 Micro**, este projeto visa simular ambientes corporativos reais, com práticas modernas de DevOps e Infraestrutura
 
 ---
 
