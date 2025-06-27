@@ -30,6 +30,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── passthrough-nic-vfio.md
 │   ├── instalacao-drivers.md
 │   ├── diagrama-infra.png
+│   ├── vlans-docker-debian.md
 │   ├── docker-stack.md
 │   └── configurar-rclone-onedrive.md
 ├── scripts/                 # Scripts úteis e automatizados
@@ -59,6 +60,7 @@ homelab-proxmox-pfsense-vlans/
 - [Configurar NIC para Passthrough no Proxmox (VFIO)](docs/passthrough-nic-vfio.md)
 - [Instalação Automática de Drivers no Windows](docs/instalacao-drivers.md)
 - [Docker Stack Multimídia e Infraestrutura](docs/docker-stack.md)
+- [Configuração de VLANs e IP Forwarding em VM Docker Debian](docs/vlans-docker-debian.md)
 
 ---
 
