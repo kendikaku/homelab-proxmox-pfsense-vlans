@@ -1,5 +1,27 @@
 version: "3.8"
 
+networks:
+  vlan30:
+    driver: macvlan
+    driver_opts:
+      parent: ens18.30
+    ipam:
+      config:
+        - subnet: 172.16.30.0/24
+          gateway: 172.16.30.1
+
+  vlan40:
+    driver: macvlan
+    driver_opts:
+      parent: ens18.40
+    ipam:
+      config:
+        - subnet: 172.16.40.0/24
+          gateway: 172.16.40.1
+          
+  pihole-unbound-network:
+    driver: bridge
+
 services:
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
@@ -9,12 +31,15 @@ services:
       - PGID=1000
       - TZ=America/Sao_Paulo
     volumes:
-      - /mnt/externo/share/configs/BazarrConfig:/config
-      - /mnt/externo/share/Media/Movies:/movies # opcional: filmes
-      - "/mnt/externo/share/Media/Tv Shows:/tv" # opcional: séries
-    ports:
-      - 6767:6767
+      - /mnt/externo/share/configs/bazarrconfig:/config
+      - /mnt/externo/share/media/movies:/movies # opcional: filmes
+      - /mnt/externo/share/media/tv:/tv # opcional: séries
+      - /mnt/externo/share/media/animes:/animes # opcional: animes
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.5 #6767
+        mac_address: 7a:46:7c:16:6d:76
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
@@ -24,10 +49,12 @@ services:
       - PGID=1000
       - TZ=America/Sao_Paulo
     volumes:
-      - /mnt/externo/share/configs/ProwlarrConfig:/config
-    ports:
-      - 9696:9696
+      - /mnt/externo/share/configs/prowlarrconfig:/config
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.2 #9696
+        mac_address: d6:8e:db:88:78:da
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -37,12 +64,14 @@ services:
       - PGID=1000
       - TZ=America/Sao_Paulo
     volumes:
-      - /mnt/externo/share/configs/RadarrConfig:/config
-      - /mnt/externo/share/Media/Movies:/movies # opcional: filmes
-      - /mnt/externo/share/Downloads:/downloads # opcional: downloads
-    ports:
-      - 7878:7878
+      - /mnt/externo/share/configs/radarrconfig:/config
+      - /mnt/externo/share/media/movies:/movies # opcional: filmes
+      - /mnt/externo/share/downloads:/downloads # opcional: downloads
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.7 #7878
+        mac_address: ea:54:85:2e:f8:4f
 
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
@@ -52,15 +81,18 @@ services:
       - PGID=1000
       - TZ=America/Sao_Paulo
     volumes:
-      - /mnt/externo/share/configs/SonarrConfig:/config
-      - "/mnt/externo/share/Media/Tv Shows:/tv" # opcional: séries
-      - /mnt/externo/share/Downloads:/downloads # opcional: downloads
-    ports:
-      - 8989:8989
+      - /mnt/externo/share/configs/sonarrconfig:/config
+      - /mnt/externo/share/media/tv:/tv # opcional: séries
+      - /mnt/externo/share/downloads:/downloads # opcional: downloads
+      - /mnt/externo/share/media/animes:/animes # opcional: animes
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.4 #8989
+        mac_address: 8e:e8:2e:a5:7e:c7
 
   filebrowser:
-    image: filebrowser/filebrowser:v2.23.0
+    image: filebrowser/filebrowser:latest
     container_name: filebrowser
     environment:
       - PGID=1000
@@ -68,13 +100,15 @@ services:
       - TZ=America/Sao_Paulo
     volumes:
       - /mnt/externo/share:/srv
-      - /mnt/externo/share/configs/FilebrowserConfig:/db
-    ports:
-      - 10180:80
+      - /mnt/externo/share/configs/filebrowserconfig:/database
     restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.3 #80
+        mac_address: 8e:e1:31:ab:a4:de
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:5.1.0
     container_name: qbittorrent
     environment:
       - PUID=1000
@@ -83,13 +117,13 @@ services:
       - WEBUI_PORT=8080
       - TORRENTING_PORT=6881
     volumes:
-      - /mnt/externo/share/configs/qBittorrentConfig:/config
-      - /mnt/externo/share/Downloads:/downloads # opcional
-    ports:
-      - 8080:8080
-      - 6881:6881
-      - 6881:6881/udp
+      - /mnt/externo/share/configs/qbittorrentconfig:/config
+      - /mnt/externo/share/downloads:/downloads # opcional
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.8 #8080
+        mac_address: c2:d1:0c:58:ee:44
 
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
@@ -100,15 +134,15 @@ services:
       - TZ=America/Sao_Paulo
      # - JELLYFIN_PublishedServerUrl=http://192.168.0.5 # opcional
     volumes:
-      - /mnt/externo/share/configs/JellyfinConfig:/config
-      - "/mnt/externo/share/Media/Tv Shows:/data/tvshows"
-      - /mnt/externo/share/Media/Movies:/data/movies
-    ports:
-      - 8096:8096
-      - 8920:8920 # opcional
-      - 7359:7359/udp # opcional
-      - 1900:1900/udp # opcional
+      - /mnt/externo/share/configs/jellyfinconfig:/config
+      - /mnt/externo/share/media/tv:/tv
+      - /mnt/externo/share/media/movies:/movies
+      - /mnt/externo/share/media/animes:/animes
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.9 #8096
+        mac_address: d6:90:29:c9:c7:54
 
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
@@ -116,11 +150,13 @@ services:
     environment:
       - LOG_LEVEL=debug
       - TZ=America/Sao_Paulo
-    ports:
-      - 5055:5055
     volumes:
-      - /mnt/externo/share/configs/JellyseerrConfig:/app/config
+      - /mnt/externo/share/configs/jellyseerrconfig:/app/config
     restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.3 #5055
+        mac_address: 3e:f6:18:f6:0a:6e
 
   code-server:
     image: lscr.io/linuxserver/code-server:latest
@@ -135,10 +171,13 @@ services:
      # - DEFAULT_WORKSPACE=/config/workspace # opcional
      # - PWA_APPNAME=code-server # opcional
     volumes:
-      - /mnt/externo/share/configs/Code-ServerConfig:/config
-    ports:
-      - 8443:8443
+      - /mnt/externo/share/configs/codeserverconfig:/config
+      - /mnt/externo/share/estudos:/estudos
     restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.4 #8443
+        mac_address: 86:c9:30:1f:6a:95
 
   vaultwarden:
     image: vaultwarden/server:latest
@@ -147,33 +186,37 @@ services:
       - TZ=America/Sao_Paulo
       # coloque aqui outras variáveis conforme sua config
     volumes:
-      - /mnt/externo/share/configs/VaultConfig/vaultdata:/data
-    ports:
-      - 10380:80
+      - /mnt/externo/share/configs/vaultconfig/vaultdata:/data
     restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.2 #80
+        mac_address: f6:47:0a:65:bf:74
 
   openspeedtest:
-    image: openspeedtest/latest:v2.0.6
+    image: openspeedtest/latest
     container_name: openspeedtest
     environment:
       - TZ=America/Sao_Paulo
-    ports:
-      - 3000:3000
     restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.5 #3000
+        mac_address: 5e:dd:67:02:4f:16
 
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx-proxy-manager
     environment:
       - TZ=America/Sao_Paulo
-    ports:
-      - 40080:80
-      - 40443:443
-      - 81:81
     volumes:
-      - /mnt/externo/share/configs/NPMConfig/data:/data
-      - /mnt/externo/share/configs/NPMConfig/letsencrypt:/etc/letsencrypt
+      - /mnt/externo/share/configs/npmconfig/data:/data
+      - /mnt/externo/share/configs/npmconfig/letsencrypt:/etc/letsencrypt
     restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.8 #81
+        mac_address: d6:71:7d:ca:86:e7
 
   watchtower:
     image: containrrr/watchtower:latest
@@ -182,7 +225,7 @@ services:
       - TZ=America/Sao_Paulo
       - WATCHTOWER_LIFECYCLE_HOOKS=True
       - WATCHTOWER_NOTIFICATIONS=shoutrrr
-      - WATCHTOWER_NOTIFICATION_URL=telegram://Token@telegram/?channels=ChatID
+      - WATCHTOWER_NOTIFICATION_URL=telegram://TOKEN@telegram/?channels=CHATID
       - WATCHTOWER_DEBUG=true
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_SCHEDULE=0 0 11 * * *
@@ -192,37 +235,21 @@ services:
     restart: unless-stopped
     network_mode: host
 
-  pihole:
-    container_name: pihole
-    image: mpgirro/pihole-unbound:latest
-    hostname: pihole
-    domainname: local
-    environment:
-      - TZ=America/Sao_Paulo
-      - WEBPASSWORD=SuaSenha
-      # ajuste essas variáveis para sua rede e config
-    volumes:
-      - /mnt/externo/share/configs/PiHoleConfig:/etc/pihole:rw
-      - /mnt/externo/share/configs/PiHoleConfig/pihole-dnsmasq:/etc/dnsmasq.d:rw
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 80:80
-      - 443:443
-    restart: unless-stopped
-
   wg-easy:
-    image: ghcr.io/wg-easy/wg-easy:15
+    image: ghcr.io/wg-easy/wg-easy:latest
     container_name: wg-easy
     environment:
       - TZ=America/Sao_Paulo
+      - WG_HOST=SeuDominio
+      - WG_PORT=51820
+      - WG_DEFAULT_DNS=1.1.1.1 #ou pode usar o DNS do seu Firewall
       # adicione variáveis conforme sua necessidade
     volumes:
-      - /mnt/externo/share/configs/Wg-EasyConfig/etc_wireguard:/etc/wireguard
+      - /mnt/externo/share/configs/wgeasyconfig/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
     ports:
-      - "51820:51820/udp"
-      - "51821:51821/tcp"
+      - 51820:51820/udp
+      - 51821:51821/tcp
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
@@ -239,11 +266,164 @@ services:
     container_name: cloudflare-ddns
     network_mode: host
     restart: always
-    user: "1000:1000"
+    user: 1000:1000
     read_only: true
     cap_drop: [all]
     security_opt: [no-new-privileges:true]
     environment:
-      - CLOUDFLARE_API_TOKEN=API-TOKEN-Cloudflare
-      - DOMAINS=Dominio
-      - PROXIED=true
+      - CLOUDFLARE_API_TOKEN=SeuTOKENCloudflareDDNS
+      - DOMAINS=SeuDominioCloudflare
+      - PROXIED=true 
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - UMASK=002
+      - LOG_LEVEL=info
+      - LOG_HTML=false
+      - CAPTCHA_SOLVER=none
+    volumes:
+      - /mnt/externo/share/configs/flaresolverrconfig:/config
+    restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.6 #8191
+        mac_address: 32:89:13:86:20:29
+
+  cloudflared:
+    image: wisdomsky/cloudflared-web:latest
+    container_name: cloudflared
+    environment:
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share/configs/cloudflaredconfig:/config
+    ports:
+      - 14333:14333
+    restart: unless-stopped
+    network_mode: host
+
+  pairdrop:
+    image: linuxserver/pairdrop:1.11.2
+    container_name: pairdrop
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+     # - RATE_LIMIT=
+     # - WS_FALLBACK=
+     # - RTC_CONFIG=
+     # - DEBUG_MODE=
+    volumes:
+      - /mnt/externo/share/configs/pairdropconfig:/config
+    ports:
+      - 3000:3000
+    network_mode: host
+    restart: unless-stopped
+    
+  isponsorblocktv:
+    container_name: isponsorblocktv
+    image: ghcr.io/dmunozv04/isponsorblocktv:latest
+    volumes:
+      - /mnt/externo/share/configs/isponsorblocktvconfig:/app/data
+    network_mode: host
+    restart: unless-stopped
+
+
+  unifi-db:
+    image: mongo:6.0
+    container_name: unifi-db
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+      - MONGO_INITDB_DATABASE=unifi
+    volumes:
+      - /mnt/externo/share/configs/unificonfig/unifidb:/data/db
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.6
+        mac_address: 8e:31:31:6e:4f:22
+
+  unifi-network-application:
+    image: lscr.io/linuxserver/unifi-network-application:latest
+    container_name: unifi-network-application
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+      - MONGO_USER=admin
+      - MONGO_PASS=admin123
+      - MONGO_HOST=unifi-db
+      - MONGO_PORT=27017
+      - MONGO_DBNAME=unifi
+      - MONGO_AUTHSOURCE=admin
+      - MEM_LIMIT=1024
+      - MEM_STARTUP=1024
+    volumes:
+      - /mnt/externo/share/configs/unificonfig:/config
+    restart: unless-stopped
+    depends_on:
+      - unifi-db
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.7 #8443
+        mac_address: 56:3f:64:c8:ec:e1
+
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Sao_Paulo
+    volumes:
+      - /mnt/externo/share/configs/heimdallconfig:/config
+    restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.10 #80
+        mac_address: 8e:70:23:cd:51:05
+
+  2fauth:
+    image: 2fauth/2fauth:latest
+    container_name: 2fauth
+    environment:
+      - TZ=America/Sao_Paulo
+      - APP_KEY=SuaChaveSecreta
+      - DB_DATABASE=/2fauth/database.sqlite
+      - APP_ENV=local
+      - APP_URL=http://172.16.30.9:8000
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /mnt/externo/share/configs/2fauthconfig:/2fauth # Precisa de permissão caso seja hd externo exemplo dos comandos -- sudo chown -R 1000:1000 /mnt/externo/share/configs/2FAuthConfig e sudo chmod -R 755 /mnt/externo/share/configs/2FAuthConfig
+    restart: unless-stopped
+    networks:
+      vlan30:
+        ipv4_address: 172.16.30.9 #8000
+        mac_address: 1e:b6:08:10:3b:96
+    
+  pihole-unbound:
+    image: bigbeartechworld/big-bear-pihole-unbound:latest
+    container_name: pihole-unbound
+    environment:
+      - TZ=America/Sao_Paulo
+      - FTLCONF_webserver_api_password=SeuPasswordDeAcessoWEB
+      - FTLCONF_dns_upstreams=127.0.0.1#5353
+    volumes:
+      - /mnt/externo/share/configs/pihole/etc:/etc/pihole
+      - /mnt/externo/share/configs/pihole/dnsmasq.d:/etc/dnsmasq.d
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 10080:80
+      - 10443:443
+    restart: unless-stopped
+    networks:
+      pihole-unbound-network: {}
