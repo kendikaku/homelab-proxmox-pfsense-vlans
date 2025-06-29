@@ -19,17 +19,20 @@ networks:
         - subnet: 172.16.40.0/24
           gateway: 172.16.40.1
           
-  pihole-unbound-network:
-    driver: bridge
-
 services:
+
+############################
+# BAZARR
+############################
+
   bazarr:
     image: lscr.io/linuxserver/bazarr:latest
     container_name: bazarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/bazarrconfig:/config
       - /mnt/externo/share/media/movies:/movies # opcional: filmes
@@ -41,13 +44,18 @@ services:
         ipv4_address: 172.16.40.5 #6767
         mac_address: 7a:46:7c:16:6d:76
 
+############################
+# PROWLARR
+############################
+
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/prowlarrconfig:/config
     restart: unless-stopped
@@ -56,13 +64,18 @@ services:
         ipv4_address: 172.16.40.2 #9696
         mac_address: d6:8e:db:88:78:da
 
+############################
+# RADARR
+############################
+
   radarr:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/radarrconfig:/config
       - /mnt/externo/share/media/movies:/movies # opcional: filmes
@@ -73,13 +86,18 @@ services:
         ipv4_address: 172.16.40.7 #7878
         mac_address: ea:54:85:2e:f8:4f
 
+############################
+# SONARR
+############################
+
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/sonarrconfig:/config
       - /mnt/externo/share/media/tv:/tv # opcional: séries
@@ -91,13 +109,17 @@ services:
         ipv4_address: 172.16.40.4 #8989
         mac_address: 8e:e8:2e:a5:7e:c7
 
+############################
+# FILEBROWSER
+############################
+
   filebrowser:
     image: filebrowser/filebrowser:latest
     container_name: filebrowser
     environment:
-      - PGID=1000
-      - PUID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share:/srv
       - /mnt/externo/share/configs/filebrowserconfig:/database
@@ -107,13 +129,18 @@ services:
         ipv4_address: 172.16.30.3 #80
         mac_address: 8e:e1:31:ab:a4:de
 
+############################
+# QBITTORRENT
+############################
+
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:5.1.0
     container_name: qbittorrent
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
       - WEBUI_PORT=8080
       - TORRENTING_PORT=6881
     volumes:
@@ -125,13 +152,18 @@ services:
         ipv4_address: 172.16.40.8 #8080
         mac_address: c2:d1:0c:58:ee:44
 
+############################
+# JELLYFIN
+############################
+
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
     container_name: jellyfin
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
      # - JELLYFIN_PublishedServerUrl=http://192.168.0.5 # opcional
     volumes:
       - /mnt/externo/share/configs/jellyfinconfig:/config
@@ -144,12 +176,16 @@ services:
         ipv4_address: 172.16.40.9 #8096
         mac_address: d6:90:29:c9:c7:54
 
+############################
+# JELLYSEERR
+############################
+
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
-      - TZ=America/Sao_Paulo
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/jellyseerrconfig:/app/config
     restart: unless-stopped
@@ -158,13 +194,18 @@ services:
         ipv4_address: 172.16.40.3 #5055
         mac_address: 3e:f6:18:f6:0a:6e
 
+############################
+# CODE-SERVER
+############################
+
   code-server:
     image: lscr.io/linuxserver/code-server:latest
     container_name: code-server
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
      # - PASSWORD=password # opcional
      # - SUDO_PASSWORD=password # opcional
      # - PROXY_DOMAIN=code-server.my.domain # opcional
@@ -179,11 +220,17 @@ services:
         ipv4_address: 172.16.30.4 #8443
         mac_address: 86:c9:30:1f:6a:95
 
+############################
+# VAULTWARDEN
+############################
+
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=${TZ}
+      - DOMAIN=${VAULTWARDEN_DOMAIN}
+      - ADMIN_TOKEN=${VAULTWARDEN_ADMIN_TOKEN}
       # coloque aqui outras variáveis conforme sua config
     volumes:
       - /mnt/externo/share/configs/vaultconfig/vaultdata:/data
@@ -193,22 +240,30 @@ services:
         ipv4_address: 172.16.30.2 #80
         mac_address: f6:47:0a:65:bf:74
 
+############################
+# OPENSPEEDTEST
+############################
+
   openspeedtest:
     image: openspeedtest/latest
     container_name: openspeedtest
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=${TZ}
     restart: unless-stopped
     networks:
       vlan30:
         ipv4_address: 172.16.30.5 #3000
         mac_address: 5e:dd:67:02:4f:16
 
+############################
+# NGINX PROXY MANAGER
+############################
+
   nginx-proxy-manager:
     image: jc21/nginx-proxy-manager:latest
     container_name: nginx-proxy-manager
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/npmconfig/data:/data
       - /mnt/externo/share/configs/npmconfig/letsencrypt:/etc/letsencrypt
@@ -218,14 +273,18 @@ services:
         ipv4_address: 172.16.30.8 #81
         mac_address: d6:71:7d:ca:86:e7
 
+############################
+# WATCHTOWER
+############################
+
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=${TZ}
       - WATCHTOWER_LIFECYCLE_HOOKS=True
       - WATCHTOWER_NOTIFICATIONS=shoutrrr
-      - WATCHTOWER_NOTIFICATION_URL=telegram://TOKEN@telegram/?channels=CHATID
+      - WATCHTOWER_NOTIFICATION_URL=${WATCHTOWER_NOTIFICATION_URL}
       - WATCHTOWER_DEBUG=true
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_SCHEDULE=0 0 11 * * *
@@ -235,20 +294,24 @@ services:
     restart: unless-stopped
     network_mode: host
 
+############################
+# WG-EASY
+############################
+
   wg-easy:
     image: ghcr.io/wg-easy/wg-easy:latest
     container_name: wg-easy
     environment:
-      - TZ=America/Sao_Paulo
-      - WG_HOST=SeuDominio
-      - WG_PORT=51820
-      - WG_DEFAULT_DNS=1.1.1.1 #ou pode usar o DNS do seu Firewall
+      - TZ=${TZ}
+      - WG_HOST=ddns.kend1.com.br
+      - WG_PORT=51825
+      - WG_DEFAULT_DNS=192.168.1.1
       # adicione variáveis conforme sua necessidade
     volumes:
       - /mnt/externo/share/configs/wgeasyconfig/etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro
     ports:
-      - 51820:51820/udp
+      - 51825:51825/udp
       - 51821:51821/tcp
     restart: unless-stopped
     cap_add:
@@ -260,6 +323,11 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
       - net.ipv6.conf.all.forwarding=1
       - net.ipv6.conf.default.forwarding=1
+    network_mode: bridge
+
+############################
+# CLOUDFLARE DDNS
+############################
 
   cloudflare-ddns:
     image: favonia/cloudflare-ddns:latest
@@ -271,18 +339,22 @@ services:
     cap_drop: [all]
     security_opt: [no-new-privileges:true]
     environment:
-      - CLOUDFLARE_API_TOKEN=SeuTOKENCloudflareDDNS
-      - DOMAINS=SeuDominioCloudflare
+      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+      - DOMAINS=kend1.com.br
       - PROXIED=true 
+
+############################
+# FLARESOLVERR
+############################
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
-      - UMASK=002
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
       - LOG_LEVEL=info
       - LOG_HTML=false
       - CAPTCHA_SOLVER=none
@@ -294,11 +366,15 @@ services:
         ipv4_address: 172.16.40.6 #8191
         mac_address: 32:89:13:86:20:29
 
+############################
+# CLOUDFLARED
+############################
+
   cloudflared:
     image: wisdomsky/cloudflared-web:latest
     container_name: cloudflared
     environment:
-      - TZ=America/Sao_Paulo
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/cloudflaredconfig:/config
     ports:
@@ -306,13 +382,18 @@ services:
     restart: unless-stopped
     network_mode: host
 
+############################
+# PAIRDROP
+############################
+
   pairdrop:
     image: linuxserver/pairdrop:1.11.2
     container_name: pairdrop
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
      # - RATE_LIMIT=
      # - WS_FALLBACK=
      # - RTC_CONFIG=
@@ -323,7 +404,11 @@ services:
       - 3000:3000
     network_mode: host
     restart: unless-stopped
-    
+
+############################
+# ISPONSORBLOCKTV
+############################
+
   isponsorblocktv:
     container_name: isponsorblocktv
     image: ghcr.io/dmunozv04/isponsorblocktv:latest
@@ -332,6 +417,9 @@ services:
     network_mode: host
     restart: unless-stopped
 
+############################
+# UNIFI DB
+############################
 
   unifi-db:
     image: mongo:6.0
@@ -348,13 +436,18 @@ services:
         ipv4_address: 172.16.30.6
         mac_address: 8e:31:31:6e:4f:22
 
+############################
+# UNIFI NETWORK
+############################
+
   unifi-network-application:
     image: lscr.io/linuxserver/unifi-network-application:latest
     container_name: unifi-network-application
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
       - MONGO_USER=admin
       - MONGO_PASS=admin123
       - MONGO_HOST=unifi-db
@@ -373,14 +466,18 @@ services:
         ipv4_address: 172.16.30.7 #8443
         mac_address: 56:3f:64:c8:ec:e1
 
+############################
+# HEIMDALL
+############################
 
   heimdall:
     image: lscr.io/linuxserver/heimdall:latest
     container_name: heimdall
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Sao_Paulo
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=${UMASK}
+      - TZ=${TZ}
     volumes:
       - /mnt/externo/share/configs/heimdallconfig:/config
     restart: unless-stopped
@@ -389,41 +486,63 @@ services:
         ipv4_address: 172.16.30.10 #80
         mac_address: 8e:70:23:cd:51:05
 
-  2fauth:
+############################
+# TWOFAUTH
+############################
+
+  twofauth:
     image: 2fauth/2fauth:latest
     container_name: 2fauth
     environment:
-      - TZ=America/Sao_Paulo
-      - APP_KEY=SuaChaveSecreta
+      - TZ=${TZ}
+      - APP_KEY=${TWOFAUTH_APP_KEY}
       - DB_DATABASE=/2fauth/database.sqlite
       - APP_ENV=local
-      - APP_URL=http://172.16.30.9:8000
-      - PUID=1000
-      - PGID=1000
+      - APP_URL=${TWOFAUTH_URL}
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
-      - /mnt/externo/share/configs/2fauthconfig:/2fauth # Precisa de permissão caso seja hd externo exemplo dos comandos -- sudo chown -R 1000:1000 /mnt/externo/share/configs/2FAuthConfig e sudo chmod -R 755 /mnt/externo/share/configs/2FAuthConfig
+      - /mnt/externo/share/configs/2fauthconfig:/2fauth # Precisa de permissão caso seja hd externo exemplo dos comandos -- sudo chown -R 1000:1000 /mnt/externo/share/configs/2fauthconfig e sudo chmod -R 755 /mnt/externo/share/configs/2fauthconfig
     restart: unless-stopped
     networks:
       vlan30:
         ipv4_address: 172.16.30.9 #8000
         mac_address: 1e:b6:08:10:3b:96
-    
+
+############################
+# PIHOLE UNBOUND
+############################
+
   pihole-unbound:
     image: bigbeartechworld/big-bear-pihole-unbound:latest
     container_name: pihole-unbound
     environment:
-      - TZ=America/Sao_Paulo
-      - FTLCONF_webserver_api_password=SeuPasswordDeAcessoWEB
+      - TZ=${TZ}
+      - FTLCONF_webserver_api_password=${FTLCONF_webserver_api_password}
       - FTLCONF_dns_upstreams=127.0.0.1#5353
     volumes:
-      - /mnt/externo/share/configs/pihole/etc:/etc/pihole
-      - /mnt/externo/share/configs/pihole/dnsmasq.d:/etc/dnsmasq.d
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-      - 67:67/udp
-      - 10080:80
-      - 10443:443
+      - /mnt/externo/share/configs/piholeconfig/etc:/etc/pihole
+      - /mnt/externo/share/configs/piholeconfig/dnsmasq.d:/etc/dnsmasq.d
     restart: unless-stopped
     networks:
-      pihole-unbound-network: {}
+      vlan30:
+        ipv4_address: 172.16.30.11  # Escolha um IP livre e reservado
+        mac_address: 02:42:ac:1e:0a:01  # MAC opcional, mas ajuda no DHCP estático
+
+############################
+# RECYCLARR
+############################
+
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr
+    container_name: recyclarr
+    environment:
+      - TZ=${TZ}
+    user: 1000:1000
+    volumes:
+      - /mnt/externo/share/configs/recyclarrconfig:/config
+    restart: unless-stopped
+    networks:
+      vlan40:
+        ipv4_address: 172.16.40.10
+        mac_address: 7a:99:de:aa:bb:cc

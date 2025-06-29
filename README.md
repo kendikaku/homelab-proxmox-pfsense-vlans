@@ -39,6 +39,7 @@ homelab-proxmox-pfsense-vlans/
 │   ├── instalar-drivers.bat
 │   └── redimensionar-lv-root.sh
 ├── docker-compose.yaml
+├── environment_publico.env
 └── README.md
 ```
 
